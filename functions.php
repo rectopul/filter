@@ -65,11 +65,21 @@ function filter_products() {
 
   	//Caso tenha os dados, retorna-os / Caso não tenha retorna 402 para tratarmos no frontend
   	//LOOP ALL POSTS MIN 
+
+  	$responses = array();
 	
 	if ( isset( $_POST['categories_filter'] ) ) {
 
 		$categoriesProduct = array_unique($_POST['categories_filter']);
 		$notCheck = array_unique( $_POST['categories_not_check'] );
+
+		foreach ($categoriesProduct as $categorinames) {
+			$term = get_term_by( 'id', $categorinames, 'product_cat', 'ARRAY_A' );
+			$responses['filter'][] = array(
+				'name' => $term['name'],
+				'id'   => $categorinames
+			);
+		}
 
 		$args = array(
 		    'posts_per_page' => -1, // -1 Mostrar todos
@@ -90,16 +100,29 @@ function filter_products() {
 		if ( $query->have_posts() ) {
 		    while ( $query->have_posts() ) {
 
-		       $query->the_post();
-		       $produto = wc_get_product(get_the_id());     
-		    ?>
-		    
-	      	<div class="produtoLista"> 
-		       <a href=""><div class="produtoListaFoto"> <?php the_post_thumbnail(); ?> </div></a>
-		       <a href=""><div class="produtoListaTitulo">  <?php echo $produto->get_title(); ?> </div></a>
-      		</div>      
-		<?php   
+		       	$query->the_post();
+		       	$produto = wc_get_product(get_the_id());   
+
+		       	if ( has_post_thumbnail() ) {
+
+					$thumb = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'obras_home' );
+
+					$thumbnail_id = get_post_thumbnail_id( $post->ID );
+
+					$alt = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true);
+				}
+
+				//INFOS THE POST
+		       	$responses['product'][] = array(
+		       		//ARRAY PARAMETROS POST
+		       		'thumbnail'  => get_the_post_thumbnail_url(),
+		       		'title'		 => get_the_title(),
+		       		'categories' => get_the_terms( $post->ID, 'product_cat' )
+	       		);
+
 	    	}
+
+	    	echo json_encode($responses, JSON_UNESCAPED_SLASHES);
 	 	}
 	}
   exit;

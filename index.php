@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 	<div class="container">
-		<div class="col-md-3 bar-lateral">
+		<div class="col-md-2 bar-lateral">
 			<?php 
 				$args = array(
 				    'number'     => $number,
@@ -29,8 +29,12 @@
 				}
 			?>
 		</div>
-
-		<div class="col-md-9 produtos">
+		<div class="col-md-10 contador"> <h5><i class="count">0</i> Resultados para <i class="pesquisa">Teste</i> </h5> </div>
+		<div class="col-md-10 filtronavegacao">
+			<!-- NO PADDING-LEFT-RIGHT -->
+			<div class="row"> </div>
+		</div>
+		<div class="col-md-10 produtos">
 			
 			<?php
 
@@ -47,7 +51,7 @@
 			      // Metodos da WC_Product
 			      // Must be inside a loop.
 			       ?>
-					<div class="col-md-4">
+					<div class="col-md-4 produtoLista">
 						<?php 
 							if ( has_post_thumbnail() ) {
 
@@ -64,7 +68,10 @@
 							}
 						?>
 
+
+
 						<a href=""><div class="title"><?php echo $produto->get_title(); ?></div> </a>
+						<?php echo $produto->get_categories( ', ', '<span class="posted_in">' . _n( 'Category:', 'Categories:', sizeof( get_the_terms( $post->ID, 'product_cat' ) ), 'woocommerce' ) . ' ', '.</span>' ); ?>
 					</div>
 			      <?php
 			   }

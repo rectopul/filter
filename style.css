@@ -7,4 +7,33 @@ Author URI:     http://www.rmbonfim.com/
 Version:        0.0.1
 */
 
-img{ max-width: 100%; }
+body{ font-size: 14px !important; }
+img{ max-width: 100%; height: auto; }
+
+.produtoListaFoto img{ height: auto; width: 100%; }
+
+.filtronavegacao{
+	margin: 20px 0;
+}
+
+.navegafiltro p{
+	display: block;
+	font-size: 1rem;
+	font-weight: 400;
+	color: #616161; 
+	letter-spacing: -1px;
+	margin: 0;
+	padding: 10px 0;
+	border-radius: 3px;
+	border: 1px solid #000; 
+	text-align: center;
+}
+
+.navegafiltro p > span{
+	color: #b15b5b;
+	margin:0 3px;
+}
+
+.del-filter{
+	font-size: 1.2rem;
+}
